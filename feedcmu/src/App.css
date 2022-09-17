@@ -2,6 +2,7 @@
   text-align: center;
 }
 
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -29,7 +30,7 @@
 }
 
 #form {
-  display: flex;
+  display: inline-flex;
 }
 
 #name_block {
@@ -46,7 +47,15 @@
 
 #building_select {
   /* background-color: #886889; */
-  color: #ea00ff;
+  padding-bottom: 20px;
+}
+
+#food_select {
+  padding: 10px;
+}
+
+#room_select {
+  padding: 10px;
 }
 
 @keyframes App-logo-spin {
