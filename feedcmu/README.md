@@ -2,6 +2,8 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+Run npm install inside parent folder containing the pacakge.json file.
+
 ## Available Scripts
 
 In the project directory, you can run:
