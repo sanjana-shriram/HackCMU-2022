@@ -58,6 +58,10 @@
   padding: 10px;
 }
 
+#submit {
+  /* padding: 15px; */
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);

@@ -2,7 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import React, { Component } from 'react';
 import { useState } from 'react';
-import { Select, MenuItem, FormControl, InputLabel, FormHelperText, TextField } from '@mui/material';
+import { Select, MenuItem, FormControl, InputLabel, FormHelperText, TextField, Button} from '@mui/material';
 
 function App() {
   const [name, setName] = useState('');
@@ -86,10 +86,14 @@ function App() {
             <TextField id="filled-basic" label="Food" variant="filled" />
           </div>
           <div id="room_select">
-            <TextField id="filled-basic" label="Room" variant="filled" />
+            <TextField id="filled-basic" label="Room #" variant="filled" />
           </div>
+          
 
         </div>
+        <div id="submit">
+            <Button variant="contained" color="success">Submit</Button>
+          </div>
 
       </header >
     </div >
