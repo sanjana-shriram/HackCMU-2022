@@ -29,8 +29,8 @@ let markers = []
 
 let foodInfo = [
   { foodName: "Bagel", loc: "ne", room_num: 1, id: 0, distance: '1 mi', duration: '3 min' },
-  { foodName: "Lunch Buffet", loc: "Gates Center for Computer Science", room_num: 1, id: 1, distance: '.1 mi', duration: '2 min' },
-  { foodName: "Pizza", loc: "College of Fine Arts", room_num: 1, id: 2, distance: '.4 mi', duration: '8 min' },
+  { foodName: "Boba", loc: "Gates Center for Computer Science", room_num: 4405, id: 1, distance: '.1 mi', duration: '2 min' },
+  { foodName: "Pizza", loc: "College of Fine Arts", room_num: 1100, id: 2, distance: '.4 mi', duration: '8 min' },
 ]
 
 const divStyle = {
