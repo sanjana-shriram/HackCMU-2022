@@ -169,9 +169,12 @@ function App() {
   return (
 
     <div className="App">
-      <div id="form">
-        <h1>FeedCMU</h1>
-      </div>
+      <header className="App-header">
+        <div id="form">
+          <h1>FeedCMU</h1>
+        </div>
+      </header>
+
       <div>
         <Grid
           container
