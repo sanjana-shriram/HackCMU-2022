@@ -13,8 +13,8 @@ const containerStyle = {
 
 let centers = [
   {
-    lat: 40.443336,
-    lng: -79.944023
+    lat: 40.445167, 
+    lng: -79.945275
   },
   {
     lat: 40.444,
@@ -52,9 +52,9 @@ function App() {
   const [room, setRoom] = useState("default")
   const [name, setName] = useState('');
   const [map, setMap] = React.useState(/**@type google.map.Map */(null))
-  var [duration, setDuration] = React.useState('')
-  var [distance, setDistance] = React.useState('')
-  var [directionsResponse, setDirectionsResponse] = React.useState(null)
+  const [duration, setDuration] = React.useState('')
+  const [distance, setDistance] = React.useState('')
+  const [directionsResponse, setDirectionsResponse] = React.useState(null)
   var [value, setValue] = React.useState(0);
   var [isVisible, setIsVisible] = React.useState([false, false, false]);
   const handleChange = event => {
@@ -75,7 +75,7 @@ function App() {
     setRoom(event.target.value);
   }
 
-  const addFoodInfo = event => {
+  async function addFoodInfo(event) {
     console.log(building)
     const locArray = building.split(",");
     console.log("loc array", locArray);
@@ -83,9 +83,22 @@ function App() {
     const lng = parseFloat(locArray[1]);
     const bname = locArray[2];
     centers.push({ lat: lat, lng: lng });
-    calculateRoute()
-    // { foodName: "Pizza", loc: "ne", amount: 3, room_num: 1, id: 2, duration: '3 min' },
-    foodInfo.push({ foodName: food, loc: bname, room_num: room, id: foodInfo.length, distance: distance,  duration: duration })
+    //eslint-disable-next-line no-undef
+    const newDest = new google.maps.LatLng(lat, lng)
+    //eslint-disable-next-line no-undef
+    source = new google.maps.LatLng(centers[0].lat, centers[0].lng)
+    //eslint-disable-next-line no-undef
+    const directionService = new google.maps.DirectionsService()
+    const results = await directionService.route({
+      origin: source,
+      destination: newDest,
+      //eslint-disable-next-line no-undef
+      travelMode: google.maps.TravelMode.WALKING
+    })
+    setDirectionsResponse(results)
+    setDistance(results.routes[0].legs[0].distance.text)
+    setDuration(results.routes[0].legs[0].duration.text)
+    foodInfo.push({ foodName: food, loc: bname, room_num: room, id: foodInfo.length, distance: results.routes[0].legs[0].distance.text, duration: results.routes[0].legs[0].duration.text })
     setRoom(null)
     setFood(null)
     console.log(centers);
@@ -104,9 +117,6 @@ function App() {
   async function calculateRoute(dest) {
     //eslint-disable-next-line no-undef
     source = new google.maps.LatLng(centers[0].lat, centers[0].lng)
-    // if (dest === null) {
-    //   return
-    // } else {
     //eslint-disable-next-line no-undef
     const directionService = new google.maps.DirectionsService()
     const results = await directionService.route({
@@ -179,10 +189,10 @@ function App() {
                 mapTypeControl: false,
                 fullscreenControl: false
               }}>
-              {markers = [] }
+              {markers = []}
               {centers.forEach((coord, idx) => markers.push(
                 <div>
-                  <MarkerF position={coord} onClick={(e) => onMarkerClick(e)} onMouseOver={() => setTrue(idx)} onMouseOut={() => setFalse(idx)}/>
+                  <MarkerF position={coord} onClick={(e) => onMarkerClick(e)} onMouseOver={() => setTrue(idx)} onMouseOut={() => setFalse(idx)} />
                   {console.log(isVisible[idx])}
                   {isVisible[idx] ?
                     <InfoWindowF
@@ -194,9 +204,16 @@ function App() {
 
                     >
                       <div style={divStyle}>
-                        <h3>{foodInfo[idx].foodName} @ {foodInfo[idx].loc}</h3>
-                        <h3>Room #{foodInfo[idx].room_num}</h3>
-                        <h3>Travel time: {foodInfo[idx].duration}</h3>
+                        {idx === 0 ?
+                          <div>
+                            <h3>You are here</h3>
+                          </div>
+                          :
+                          <div>
+                            <h3>{foodInfo[idx].foodName} @ {foodInfo[idx].loc}</h3>
+                            <h3>Room #{foodInfo[idx].room_num}</h3>
+                            <h3>Distance: {foodInfo[idx].distance}; Travel time: {foodInfo[idx].duration}</h3>
+                          </div>}
                       </div>
                     </InfoWindowF> : null}
                 </div>
@@ -263,10 +280,10 @@ function App() {
               </FormControl>
             </div>
             <div id="food_select">
-              <TextField id="filled-basic" label="Food" variant="filled" onChange={updateFood}/>
+              <TextField id="filled-basic" label="Food" variant="filled" onChange={updateFood} />
             </div>
             <div id="room_select">
-              <TextField id="filled-basic" label="Room #" variant="filled" onChange={updateRoom}/>
+              <TextField id="filled-basic" label="Room #" variant="filled" onChange={updateRoom} />
             </div>
 
 
