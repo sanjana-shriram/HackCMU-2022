@@ -32,7 +32,7 @@ function App() {
 
   const containerStyle = {
     width: '800px',
-    height: '800px',
+    height: '600px',
     justifyContent: 'center',
   };
 
@@ -65,6 +65,7 @@ function App() {
   const [distance, setDistance] = React.useState('')
   const [directionsResponse, setDirectionsResponse] = React.useState(null)
   const [value, setValue] = React.useState(0);
+  let [isVisible, setIsVisible] = React.useState(null);
   // const [dest, setDest] = React.useState(null);
   let source = null
 
@@ -103,9 +104,19 @@ function App() {
     setDuration(results.routes[0].legs[0].duration.text)
   }
 
-  function onMarkerOver(e) {
-    console.log(e)
+  const incrementNumber = index => {
+    setIsVisible([
+        ...isVisible.slice(0, index),
+        true,
+        ...isVisible.slice(index + 1),
+      ]
+    )
   }
+
+  // function onMarkerOver(e, idx) {
+    
+    
+  // }
 
   function clearRoute() {
     setDirectionsResponse(null)
@@ -120,6 +131,8 @@ function App() {
     { foodName: "Buffet", loc: "ne", amount: 3, id: 1, duration: '3 min' },
     { foodName: "Pizza", loc: "ne", amount: 3, id: 2, duration: '3 min' },
   ]
+
+  isVisible = [false, false, false]
 
   const divStyle = {
     background: `white`,
@@ -156,7 +169,7 @@ function App() {
           direction="column"
           alignItems="center"
           justifyContent="center"
-          style={{ minHeight: '80vh' }}
+          style={{ minHeight: '67vh' }}
         >
 
           <Grid item xs={3}>
@@ -175,18 +188,19 @@ function App() {
             >
               {centers.forEach((coord, idx) => markers.push(
                 <div>
-                  <MarkerF position={coord} onClick={(e) => onMarkerClick(e)} onMouseOver={(e) => onMarkerOver(e)} />
-                  <InfoWindowF
+                  <MarkerF position={coord} onClick={(e) => onMarkerClick(e)} onMouseOver={() => incrementNumber(idx)} />
+                  {console.log(isVisible[idx])}
+                  {isVisible[idx] ? <InfoWindowF
                     onLoad={onLoad}
                     position={coord}
-
+                    options
                   >
                     <div style={divStyle}>
                       <h3>{foodInfo[idx].foodName} @ {foodInfo[idx].loc}</h3>
                       <h3>Amount: {foodInfo[idx].amount}</h3>
                       <h3>Travel time: {foodInfo[idx].duration}</h3>
                     </div>
-                  </InfoWindowF>
+                  </InfoWindowF> : null}
                 </div>
               )
 
