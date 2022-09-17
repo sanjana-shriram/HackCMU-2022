@@ -13,7 +13,7 @@ const containerStyle = {
 
 let centers = [
   {
-    lat: 40.445167, 
+    lat: 40.445167,
     lng: -79.945275
   },
   {
@@ -21,7 +21,7 @@ let centers = [
     lng: -79.944519
   },
   {
-    lat: 40.441534, 
+    lat: 40.441534,
     lng: -79.942926
   }
 ];
@@ -167,8 +167,11 @@ function App() {
   }
 
   return (
-    
+
     <div className="App">
+      <div id="form">
+        <h1>FeedCMU</h1>
+      </div>
       <div>
         <Grid
           container
