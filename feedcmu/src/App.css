@@ -1,5 +1,11 @@
 .App {
   text-align: center;
+  height: 80px;
+  justify-content: flex-start;
+  align-items: flex-start;
+  top: 0;
+  max-block-size: 70px;
+
 }
 
 
@@ -16,7 +22,7 @@
 
 .App-header {
   background-color: #e0ddcf;
-  min-height: 100vh;
+  min-height: 100px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -31,6 +37,12 @@
 
 #form {
   display: inline-flex;
+
+}
+
+#after_map {
+  position: relative;
+  padding: 30px;
 }
 
 #name_block {
@@ -46,9 +58,9 @@
 }
 
 #building_select {
-  /* background-color: #886889; */
   padding-bottom: 20px;
 }
+
 
 #food_select {
   padding: 10px;
@@ -59,7 +71,7 @@
 }
 
 #submit {
-  /* padding: 15px; */
+  padding: 15px;
 }
 
 @keyframes App-logo-spin {
