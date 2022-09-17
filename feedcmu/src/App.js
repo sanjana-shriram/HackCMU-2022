@@ -2,6 +2,7 @@ import logo from './logo.svg';
 import './App.css';
 import React, { Component } from 'react';
 import { useState } from 'react';
+import { Select, MenuItem } from '@mui/material';
 
 const submitFunction = () => {
   console.log("submit button clicked");
@@ -23,6 +24,21 @@ function App() {
         <p>
           Enter details about the free food you'd like to submit to our platform using the form below.
         </p>
+
+        <div>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={"10"}
+            label="Age"
+            onChange={handleChange}
+          >
+            {/* TODO add building namesss */}
+            <MenuItem value={"HH"}>Ten</MenuItem>
+            <MenuItem value={""}>Twenty</MenuItem>
+            <MenuItem value={30}>Thirty</MenuItem>
+          </Select>
+        </div>
 
         <div id="form">
           <form>
