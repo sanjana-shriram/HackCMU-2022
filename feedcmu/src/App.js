@@ -1,8 +1,9 @@
-import logo from './logo.svg';
 import './App.css';
-import React, { Component } from 'react';
+import React, { useEffect, component } from 'react';
+import { Box, Button, Grid, Skeleton } from '@mui/material';
+import { DirectionsService, DirectionsRenderer, GoogleMap, useJsApiLoader, MarkerF, InfoWIndowF, InfoWindowF } from '@react-google-maps/api'
 import { useState } from 'react';
-import { Select, MenuItem, FormControl, InputLabel, FormHelperText, TextField, Button} from '@mui/material';
+import { Select, MenuItem, FormControl, InputLabel, FormHelperText, TextField } from '@mui/material';
 
 function App() {
   const [name, setName] = useState('');
@@ -19,15 +20,172 @@ function App() {
 
   const [building, setBuilding] = useState("default")
 
+
+  const containerStyle = {
+    width: '800px',
+    height: '800px',
+    justifyContent: 'center',
+  };
+
+  const centers = [
+    {
+      lat: 40.443336,
+      lng: -79.944023
+    },
+    {
+      lat: 40.444,
+      lng: -79.944023
+    },
+    {
+      lat: 40.445,
+      lng: -79.944023
+    }
+  ];
+
+
+  const { isLoaded } = useJsApiLoader({
+    id: 'google-map-script',
+    googleMapsApiKey: 'AIzaSyCev9HKXyfXSboGpzOOKuL6D6eBfejpcNI',
+    libraries: ['places']
+  })
+
+  console.log(isLoaded)
+
+  const [map, setMap] = React.useState(/**@type google.map.Map */(null))
+  const [duration, setDuration] = React.useState('')
+  const [distance, setDistance] = React.useState('')
+  const [directionsResponse, setDirectionsResponse] = React.useState(null)
+  const [value, setValue] = React.useState(0);
+  // const [dest, setDest] = React.useState(null);
+  let source = null
+
+  // const onLoad = React.useCallback(function callback(map) {
+  //   const bounds = new window.google.maps.LatLngBounds(center);
+  //   map.fitBounds(bounds);
+  //   setMap(map)
+  // }, [])
+
+  // const onUnmount = React.useCallback(function callback(map) {
+  //   setMap(null)
+  // }, [])
+
+  function onMarkerClick(e) {
+    //eslint-disable-next-line no-undef
+    calculateRoute(e.latLng)
+    console.log(distance, duration)
+  }
+
+  async function calculateRoute(dest) {
+    //eslint-disable-next-line no-undef
+    source = new google.maps.LatLng(centers[0].lat, centers[0].lng)
+    // if (dest === null) {
+    //   return
+    // } else {
+    //eslint-disable-next-line no-undef
+    const directionService = new google.maps.DirectionsService()
+    const results = await directionService.route({
+      origin: source,
+      destination: dest,
+      //eslint-disable-next-line no-undef
+      travelMode: google.maps.TravelMode.WALKING
+    })
+    setDirectionsResponse(results)
+    setDistance(results.routes[0].legs[0].distance.text)
+    setDuration(results.routes[0].legs[0].duration.text)
+  }
+
+  function onMarkerOver(e) {
+    console.log(e)
+  }
+
+  function clearRoute() {
+    setDirectionsResponse(null)
+    // directionsResponse = null
+    setDistance('')
+    setDuration('')
+    // setDest(null)
+  }
+
+  const divStyle = {
+    background: `white`,
+    border: `none`,
+    padding: 10
+  }
+
+  const onLoad = infoWindow => {
+    console.log('infoWindow: ', infoWindow)
+  }
+
+  // function renderRoute() {
+
+  //   if (directionsResponse !== null)
+  //     return <DirectionsRenderer directions={directionsResponse} options={{ suppressMarkers: true, preserveViewport: true }} />
+  //   else
+  //     console.log("wow")
+  //     return null
+  // }
+
+  // Just a rough check of whether the Google map API is loaded
+  if (!isLoaded) {
+    return <Skeleton animation="wave" variant="rectangle" width={40} height={40} />;
+  }
+
+  let foodName = "aa", loc = "ne", amount = 3
+
   return (
     <div className="App">
+      <div>
+        <Grid
+          container
+          spacing={0}
+          direction="column"
+          alignItems="center"
+          justifyContent="center"
+          style={{ minHeight: '80vh' }}
+        >
+
+          <Grid item xs={3}>
+            <GoogleMap
+              mapContainerStyle={containerStyle}
+              center={centers[0]}
+              zoom={16.8}
+              options={{
+                zoomControl: false,
+                streetViewControl: false,
+                mapTypeControl: false,
+                fullscreenControl: false
+              }}
+            // onClick={onMapClick}
+            // onUnmount={onUnmount}
+            >
+              <MarkerF position={centers[0]} onClick={(e) => onMarkerClick(e)} onMouseOver={(e) => onMarkerOver(e)} />
+              <MarkerF position={centers[1]} onClick={(e) => onMarkerClick(e)} onMouseOver={(e) => onMarkerOver(e)} />
+              <MarkerF position={centers[2]} onClick={(e) => onMarkerClick(e)} onMouseOver={(e) => onMarkerOver(e)} />
+
+              <InfoWindowF
+                onLoad={onLoad}
+                position={centers[0]}
+              >
+                <div style={divStyle}>
+                  <h3>{foodName} at {loc}</h3>
+                  <h3>Amount: {amount}</h3>
+                  <h3>Travel time: {duration}</h3>
+                </div>
+              </InfoWindowF>
+              {console.log(directionsResponse)}
+              {directionsResponse && <DirectionsRenderer directions={directionsResponse} options={{ suppressMarkers: true, preserveViewport: true, suppressInfoWindow: true }} />}
+            </GoogleMap>
+            {/* <Button onClick={clearRoute}> del</Button> */}
+          </Grid>
+        </Grid>
+      </div>
       <header className="App-header">
         <p>
           Enter details about the free food at CMU you'd like to submit to our platform using the form below.
         </p>
         <div id="form">
           <div id="building_select">
-            <FormControl sx={{ m: 1, minWidth: 120 }}>
+            <FormControl sx={{ m: 1, minHeight: 10, minWidth: 60}}>
               <InputLabel id="demo-simple-select-helper-label">Building</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
@@ -79,12 +237,12 @@ function App() {
           <div id="room_select">
             <TextField id="filled-basic" label="Room #" variant="filled" />
           </div>
-          
+
 
         </div>
         <div id="submit">
-            <Button variant="contained" color="success">Submit</Button>
-          </div>
+          <Button variant="contained" color="success">Submit</Button>
+        </div>
 
       </header >
     </div >
