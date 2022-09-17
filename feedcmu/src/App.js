@@ -17,20 +17,20 @@ let centers = [
     lng: -79.945275
   },
   {
-    lat: 40.444,
-    lng: -79.944023
+    lat: 40.443551,
+    lng: -79.944519
   },
   {
-    lat: 40.445,
-    lng: -79.944023
+    lat: 40.441534, 
+    lng: -79.942926
   }
 ];
 let markers = []
 
 let foodInfo = [
-  { foodName: "Bagel", loc: "ne", room_num: 1, id: 0, distance: '1 mil', duration: '3 min' },
-  { foodName: "Buffet", loc: "ne", room_num: 1, id: 1, distance: '1 mil', duration: '3 min' },
-  { foodName: "Pizza", loc: "ne", room_num: 1, id: 2, distance: '1 mil', duration: '3 min' },
+  { foodName: "Bagel", loc: "ne", room_num: 1, id: 0, distance: '1 mi', duration: '3 min' },
+  { foodName: "Lunch Buffet", loc: "Gates Center for Computer Science", room_num: 1, id: 1, distance: '.2 mi', duration: '2 min' },
+  { foodName: "Pizza", loc: "College of Fine Arts", room_num: 1, id: 2, distance: '.5 mi', duration: '6 min' },
 ]
 
 const divStyle = {
@@ -167,6 +167,7 @@ function App() {
   }
 
   return (
+    
     <div className="App">
       <div>
         <Grid
