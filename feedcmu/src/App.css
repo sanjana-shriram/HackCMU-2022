@@ -2,6 +2,7 @@
   text-align: center;
 }
 
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -14,24 +15,58 @@
 }
 
 .App-header {
-  background-color: #282c34;
+  background-color: #e0ddcf;
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: calc(10px + 2vmin);
-  color: white;
+  color: #2d232e;
 }
 
 .App-link {
   color: #61dafb;
 }
 
+#form {
+  display: inline-flex;
+}
+
+#name_block {
+  display: flex;
+}
+
+#building_block {
+  display: flex;
+}
+
+#room_number_block {
+  display: flex;
+}
+
+#building_select {
+  /* background-color: #886889; */
+  padding-bottom: 20px;
+}
+
+#food_select {
+  padding: 10px;
+}
+
+#room_select {
+  padding: 10px;
+}
+
+#submit {
+  /* padding: 15px; */
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
