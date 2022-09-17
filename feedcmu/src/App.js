@@ -106,6 +106,12 @@ function App() {
     // setDest(null)
   }
 
+  let foodInfo = [
+    { foodName: "Bagel", loc: "ne", amount: 3, id: 0 },
+    { foodName: "Buffet", loc: "ne", amount: 3, id: 0 },
+    { foodName: "Pizza", loc: "ne", amount: 3, id: 0 },
+  ]
+
   const divStyle = {
     background: `white`,
     border: `none`,
@@ -130,7 +136,12 @@ function App() {
     return <Skeleton animation="wave" variant="rectangle" width={40} height={40} />;
   }
 
-  let foodName = "aa", loc = "ne", amount = 3
+  let markers = []
+
+  const SubmitFood = () => {
+
+  }
+
 
   return (
     <div className="App">
@@ -158,20 +169,26 @@ function App() {
             // onClick={onMapClick}
             // onUnmount={onUnmount}
             >
-              <MarkerF position={centers[0]} onClick={(e) => onMarkerClick(e)} onMouseOver={(e) => onMarkerOver(e)} />
-              <MarkerF position={centers[1]} onClick={(e) => onMarkerClick(e)} onMouseOver={(e) => onMarkerOver(e)} />
-              <MarkerF position={centers[2]} onClick={(e) => onMarkerClick(e)} onMouseOver={(e) => onMarkerOver(e)} />
-
-              <InfoWindowF
-                onLoad={onLoad}
-                position={centers[0]}
-              >
-                <div style={divStyle}>
-                  <h3>{foodName} at {loc}</h3>
-                  <h3>Amount: {amount}</h3>
-                  <h3>Travel time: {duration}</h3>
+              {centers.forEach((coord, idx) => markers.push(
+                <div>
+                  <MarkerF position={coord} onClick={(e) => onMarkerClick(e)} onMouseOver={(e) => onMarkerOver(e)} />
+                  <InfoWindowF
+                    onLoad={onLoad}
+                    position={coord}
+                    
+                  >
+                    <div style={divStyle}>
+                      <h3>{foodInfo[idx].foodName} @ {foodInfo[idx].loc}</h3>
+                      <h3>Amount: {foodInfo[idx].amount}</h3>
+                      <h3>Travel time: {foodInfo[idx].duration}</h3>
+                    </div>
+                  </InfoWindowF>
                 </div>
-              </InfoWindowF>
+              )
+
+              )}
+              <div>{markers}</div>
+
               {console.log(directionsResponse)}
               {directionsResponse && <DirectionsRenderer directions={directionsResponse} options={{ suppressMarkers: true, preserveViewport: true, suppressInfoWindow: true }} />}
             </GoogleMap>
@@ -185,7 +202,7 @@ function App() {
         </p>
         <div id="form">
           <div id="building_select">
-            <FormControl sx={{ m: 1, minHeight: 10, minWidth: 60}}>
+            <FormControl sx={{ m: 1, minHeight: 10, minWidth: 60 }}>
               <InputLabel id="demo-simple-select-helper-label">Building</InputLabel>
               <Select
                 labelId="demo-simple-select-label"
@@ -241,7 +258,7 @@ function App() {
 
         </div>
         <div id="submit">
-          <Button variant="contained" color="success">Submit</Button>
+          <Button variant="contained" color="success" onClick={SubmitFood}>Submit</Button>
         </div>
 
       </header >
