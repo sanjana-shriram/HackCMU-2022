@@ -1,7 +1,7 @@
 import './App.css';
-import React, { useEffect, component, useState } from 'react';
-import { Box, Button, Grid, Skeleton } from '@mui/material';
-import { DirectionsService, DirectionsRenderer, GoogleMap, useJsApiLoader, MarkerF, InfoWIndowF, InfoWindowF } from '@react-google-maps/api'
+import React, { useEffect, useState } from 'react';
+import { Button, Grid, Skeleton } from '@mui/material';
+import { DirectionsRenderer, GoogleMap, useJsApiLoader, MarkerF, InfoWindowF } from '@react-google-maps/api'
 import { Select, MenuItem, FormControl, InputLabel, FormHelperText, TextField } from '@mui/material';
 
 
@@ -28,8 +28,8 @@ let centers = [
 let markers = []
 
 let foodInfo = [
-  { foodName: "Bagel", loc: "ne", room_num: 1, id: 0, distance: '1 mil', duration: '3 min' },
-  { foodName: "Buffet", loc: "ne", room_num: 1, id: 1, distance: '1 mil', duration: '3 min' },
+  { foodName: "Bagel", loc: "TE", room_num: 1, id: 0, distance: '1 mil', duration: '3 min' },
+  { foodName: "Buffet", loc: "Wean Hall", room_num: 1, id: 1, distance: '1 mil', duration: '3 min' },
   { foodName: "Pizza", loc: "ne", room_num: 1, id: 2, distance: '1 mil', duration: '3 min' },
 ]
 
@@ -50,17 +50,16 @@ function App() {
   const [building, setBuilding] = useState("default")
   const [food, setFood] = useState("default")
   const [room, setRoom] = useState("default")
-  const [name, setName] = useState('');
-  const [map, setMap] = React.useState(/**@type google.map.Map */(null))
+  // const [name, setName] = useState('');
+  // const [map, setMap] = React.useState(/**@type google.map.Map */(null))
   const [duration, setDuration] = React.useState('')
   const [distance, setDistance] = React.useState('')
   const [directionsResponse, setDirectionsResponse] = React.useState(null)
-  var [value, setValue] = React.useState(0);
   var [isVisible, setIsVisible] = React.useState([false, false, false]);
-  const handleChange = event => {
-    setName(event.target.value);
-    console.log('value is:', event.target.value);
-  };
+  // const handleChange = event => {
+  //   setName(event.target.value);
+  //   console.log('value is:', event.target.value);
+  // };
 
   const updateBuilding = event => {
     setBuilding(event.target.value);
@@ -146,13 +145,13 @@ function App() {
     ])
   }
 
-  function clearRoute() {
-    setDirectionsResponse(null)
-    // directionsResponse = null
-    setDistance('')
-    setDuration('')
-    // setDest(null)
-  }
+  // function clearRoute() {
+  //   setDirectionsResponse(null)
+  //   // directionsResponse = null
+  //   setDistance('')
+  //   setDuration('')
+  //   // setDest(null)
+  // }
 
   // const onLoad = infoWindow => {
   //   console.log('infoWindow: ', infoWindow)
